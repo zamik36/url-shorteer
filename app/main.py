@@ -3,11 +3,7 @@ from fastapi.responses import RedirectResponse
 from app.api.v1.endpoints import urls as urls_v1
 from app.api.dependencies import get_url_use_cases
 from app.domain.use_cases import URLUseCases
-from app.infrastructure.database import init_db
 
-# Инициализация (создание таблиц) может быть выполнена здесь при запуске
-# В продакшене лучше использовать Alembic
-# init_db()
 
 app = FastAPI(
     title="URL Alias Service (Clean Architecture)",
@@ -18,6 +14,7 @@ app = FastAPI(
 )
 
 app.include_router(urls_v1.router, prefix="/api/v1/urls", tags=["URL Management"])
+
 
 @app.get("/{short_key}", summary="Перенаправление на оригинальный URL", tags=["Public Redirect"])
 def forward_to_target_url(

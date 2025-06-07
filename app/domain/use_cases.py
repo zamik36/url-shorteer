@@ -4,6 +4,7 @@ from .entities import URL, URLStats
 from .repositories import AbstractURLRepository
 from ..core.config import settings
 
+
 class URLUseCases:
     def __init__(self, repo: AbstractURLRepository):
         self.repo = repo

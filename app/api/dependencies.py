@@ -7,11 +7,11 @@ from app.domain.use_cases import URLUseCases
 from app.domain.repositories import AbstractURLRepository, AbstractUserRepository
 from app.infrastructure.database import SessionLocal
 from app.infrastructure.repositories.postgres import PostgresURLRepository, PostgresUserRepository
-from app.core.security import verify_password
+from app.core.auth import verify_password
 
 security = HTTPBasic()
 
-# Dependency Injection "Composition Root"
+
 def get_db() -> Generator[Session, None, None]:
     db = SessionLocal()
     try:
@@ -19,14 +19,18 @@ def get_db() -> Generator[Session, None, None]:
     finally:
         db.close()
 
+
 def get_url_repo(db: Session = Depends(get_db)) -> AbstractURLRepository:
     return PostgresURLRepository(db)
+
 
 def get_user_repo(db: Session = Depends(get_db)) -> AbstractUserRepository:
     return PostgresUserRepository(db)
 
+
 def get_url_use_cases(repo: AbstractURLRepository = Depends(get_url_repo)) -> URLUseCases:
     return URLUseCases(repo)
+
 
 def get_current_user(
     credentials: HTTPBasicCredentials = Depends(security),

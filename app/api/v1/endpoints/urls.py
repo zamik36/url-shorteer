@@ -5,6 +5,7 @@ from app.domain.use_cases import URLUseCases
 
 router = APIRouter()
 
+
 @router.post(
     "/",
     response_model=schemas.URLInfo,
@@ -20,6 +21,7 @@ def create_url(request: Request, payload: schemas.URLCreate, use_cases: URLUseCa
         orig_link=url.target_url,
         secret_key=url.secret_key,
     )
+
 
 @router.get(
     "/",
@@ -45,6 +47,7 @@ def read_urls(
         ) for url in urls
     ]
 
+
 @router.delete(
     "/{secret_key}",
     status_code=status.HTTP_204_NO_CONTENT,
@@ -56,6 +59,7 @@ def deactivate_url(secret_key: str, use_cases: URLUseCases = Depends(get_url_use
     if not url:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="URL not found or already inactive")
     return None
+
 
 @router.get("/stats", response_model=list[schemas.URLStatsResponse], summary="Получение статистики по переходам", dependencies=[Depends(get_current_user)])
 def get_stats(request: Request, use_cases: URLUseCases = Depends(get_url_use_cases)):

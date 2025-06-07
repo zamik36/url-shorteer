@@ -1,11 +1,13 @@
 from dataclasses import dataclass, field
 from datetime import datetime
 
+
 @dataclass
 class ClickEvent:
     id: int | None
     url_id: int
     timestamp: datetime = field(default_factory=datetime.utcnow)
+
 
 @dataclass
 class URL:
@@ -22,11 +24,13 @@ class URL:
     def deactivate(self):
         self.is_active = False
 
+
 @dataclass
 class URLStats(URL):
     """Сущность для представления статистики"""
     last_hour_clicks: int = 0
     last_day_clicks: int = 0
+
 
 @dataclass
 class User:

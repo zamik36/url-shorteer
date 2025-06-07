@@ -6,24 +6,19 @@ from alembic import context
 from app.core.config import settings
 from app.infrastructure.database import Base
 
-# Добавляем путь к нашему приложению
 import sys
 from pathlib import Path
 sys.path.append(str(Path(__file__).resolve().parents[1]))
 
-# Это Alembic Config object, который предоставляет доступ
-# к значениям из .ini файла.
 config = context.config
 
-# Интерпретируем .ini файл для логирования Python.
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-# Устанавливаем URL для подключения к БД из наших настроек, а не из .ini файла
 config.set_main_option("sqlalchemy.url", settings.DATABASE_URL)
 
-# Добавляем наши модели в target_metadata для поддержки 'autogenerate'
 target_metadata = Base.metadata
+
 
 def run_migrations_offline() -> None:
     """Run migrations in 'offline' mode.
@@ -44,6 +39,7 @@ def run_migrations_offline() -> None:
     with context.begin_transaction():
         context.run_migrations()
 
+
 def run_migrations_online() -> None:
     """Run migrations in 'online' mode.
     In this scenario we need to create an Engine
@@ -58,6 +54,7 @@ def run_migrations_online() -> None:
         context.configure(connection=connection, target_metadata=target_metadata)
         with context.begin_transaction():
             context.run_migrations()
+
 
 if context.is_offline_mode():
     run_migrations_offline()

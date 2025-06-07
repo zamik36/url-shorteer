@@ -6,6 +6,7 @@ from app.domain.entities import URL as URLEntity, User as UserEntity, URLStats
 from app.domain.repositories import AbstractURLRepository, AbstractUserRepository
 from .. import models
 
+
 class PostgresURLRepository(AbstractURLRepository):
     def __init__(self, session: Session):
         self.db = session
